@@ -5,6 +5,8 @@ public class State {
 	private int id;
 	private String name;
 	private boolean state;
+	
+	
 
 	public int getId() {
 		return id;

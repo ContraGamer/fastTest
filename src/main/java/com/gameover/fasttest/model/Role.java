@@ -4,7 +4,7 @@ public class Role {
 
 	private int id;
 	private String name;
-	private State state;
+	private String state;
 
 	public int getId() {
 		return id;
@@ -22,11 +22,11 @@ public class Role {
 		this.name = name;
 	}
 
-	public State getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
