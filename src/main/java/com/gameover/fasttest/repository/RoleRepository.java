@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.gameover.fasttest.model.Role;
 import com.google.gson.Gson;
@@ -34,7 +36,14 @@ public class RoleRepository {
 		return cadenaFinal;
 	}
 
-	public Role traeRoleId(int id) {
+	/**
+	 * 
+	 * Obtiene el registro por medio del ID
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Role getFotId(int id) {
 		Role value = new Role();
 		try {
 
@@ -53,6 +62,12 @@ public class RoleRepository {
 		return value;
 	}
 
+	/**
+	 * Actualiza o crea el registro ingresado
+	 * 
+	 * @param role
+	 * @return
+	 */
 	public String saveRole(Role role) {
 		Role[] roles = null;
 		try {
@@ -95,7 +110,7 @@ public class RoleRepository {
 			fw.write("");
 			fw.write(gson.toJson(paraSalida));
 			fw.close();
-			if (traeRoleId(role.getId()).equals(role)) {
+			if (getFotId(role.getId()).equals(role)) {
 				return "Se agregó correctamente el role.";
 			} else {
 				return "Ha ocurrido algo, no se agrego el role.";
@@ -108,6 +123,12 @@ public class RoleRepository {
 
 	}
 
+	/**
+	 * 
+	 * Elimina el registro solicitado por medio del Role
+	 * 
+	 * @param role
+	 */
 	public void deleteRole(Role role) {
 		Role[] roles = null;
 
@@ -123,7 +144,7 @@ public class RoleRepository {
 					newRoles[i] = p;
 					i++;
 				}
-				
+
 			}
 			fw = new FileWriter(f, false);
 			fw.write("");
@@ -138,6 +159,12 @@ public class RoleRepository {
 		}
 	}
 
+	/**
+	 * 
+	 * Elimina el registro por medio del ID.
+	 * 
+	 * @param id
+	 */
 	public void deleteRole(int id) {
 		Role[] roles = null;
 
@@ -145,18 +172,18 @@ public class RoleRepository {
 			File f = new File(System.getProperty("user.dir") + URL);
 			FileWriter fw;
 			Gson gson = new Gson();
-			
+
 			roles = gson.fromJson(cadenaFinal(), Role[].class);
 			Role[] newRoles = new Role[roles.length - 1];
 			int i = 0;
 			for (Role p : roles) {
-				
+
 				if (p.getId() != id) {
-					
+
 					newRoles[i] = p;
 					i++;
 				}
-				
+
 			}
 
 			fw = new FileWriter(f, false);
@@ -172,16 +199,31 @@ public class RoleRepository {
 		}
 	}
 
-	public static void main(String[] args) {
-		RoleRepository roleRepository = new RoleRepository();
-		Role role = new Role();
-//		role.setId(2);
-//		role.setName("Empleado");
-//		role.setState("A");
-//		roleRepository.saveRole(role);
-//		Role role = roleRepository.traeRoleId(3);
-//		System.out.println(role.getName());
-		roleRepository.deleteRole(2);
+	public List<Role> listAll() {
+		List<Role> newList = new ArrayList<Role>();
+		Role[] roles = null;
+		try {
+			Gson gson = new Gson();
+			roles = gson.fromJson(cadenaFinal(), Role[].class);
+			for (Role p : roles) {
+				newList.add(p);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return newList;
 	}
+
+//	public static void main(String[] args) {
+////		RoleRepository roleRepository = new RoleRepository();
+////		Role role = new Role();
+//////		role.setId(2);
+//////		role.setName("Empleado");
+//////		role.setState("A");
+//////		roleRepository.saveRole(role);
+//////		Role role = roleRepository.traeRoleId(3);
+//////		System.out.println(role.getName());
+////		roleRepository.deleteRole(2);
+//	}
 
 }
